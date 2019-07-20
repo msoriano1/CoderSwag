@@ -4,9 +4,10 @@ import com.mattdog.coderswag.Model.Category
 import com.mattdog.coderswag.Model.Product
 
 object DataService {
+    //Stores static data via static lists containing varargs (instances of classes)
     val categories = listOf(Category("SHIRTS", "shirtImage"),
         Category("HOODIES", "hoodieImage"),
-        Category("sHATS", "hatsImage"),
+        Category("HATS", "hatsImage"),
         Category("DIGITAL", "digitalgoodsImage"))
 
     val hats = listOf(
