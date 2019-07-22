@@ -12,12 +12,13 @@ import com.mattdog.coderswag.Model.Category
 import com.mattdog.coderswag.R
 import kotlinx.android.synthetic.main.category_list_item.view.*
 
-class CategoryRecyclerAdapter(val context: Context, val categories: List<Category>) : RecyclerView.Adapter<CategoryRecyclerAdapter.Holder>() {
+class CategoryRecyclerAdapter(val context: Context, val categories: List<Category>, val itemClick: (Category) -> Unit) : RecyclerView.Adapter<CategoryRecyclerAdapter.Holder>() {
+    // val itemClick is a Lambda; can be passed around to other functions, as a variable, etcs
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(context).inflate(R.layout.category_list_item, parent, false)
         //for the'inflate', choose the one with Attach to Root
-        return Holder(view)
+        return Holder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -29,7 +30,8 @@ class CategoryRecyclerAdapter(val context: Context, val categories: List<Categor
         holder?.bindCategory(categories[position], context)
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class Holder(itemView: View?, val itemClick: (Category) -> Unit) : RecyclerView.ViewHolder(itemView!!){
+        //Lambda allows data to be passed to the setOnClickListener
         //holder sets the UI elements (itemView) to variables
         val categoryImage = itemView?.findViewById<ImageView>(R.id.categoryImage)
         val categoryName = itemView?.findViewById<TextView>(R.id.categoryName)
@@ -39,6 +41,8 @@ class CategoryRecyclerAdapter(val context: Context, val categories: List<Categor
                 "drawable", context.packageName)
             categoryImage?.setImageResource(resourceId)
             categoryName?.text = category.title
+
+            itemView.setOnClickListener { itemClick(category) }
         }
 
     }

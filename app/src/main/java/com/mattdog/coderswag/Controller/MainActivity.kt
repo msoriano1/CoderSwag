@@ -1,5 +1,6 @@
 package com.mattdog.coderswag.Controller
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -10,6 +11,7 @@ import com.mattdog.coderswag.Adapters.CategoryRecyclerAdapter
 import com.mattdog.coderswag.Model.Category
 import com.mattdog.coderswag.R
 import com.mattdog.coderswag.Services.DataService
+import com.mattdog.coderswag.Utilities.EXTRA_CATEGORY
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +30,12 @@ class MainActivity : AppCompatActivity() {
         //    DataService.categories)
         //Adapters accept 3 parameters: context, the type of layout/format to be converted to, and the data source)
 
-        adapter = CategoryRecyclerAdapter(this, DataService.categories)
+        adapter = CategoryRecyclerAdapter(this, DataService.categories) {category ->
+            val productIntent = Intent(this, ProductsActivity::class.java)
+            productIntent.putExtra(EXTRA_CATEGORY, category.title)
+            startActivity(productIntent)
+            println(category.title)
+        }
 
         categoryListView.adapter = adapter
         //set the adapter of the listView to the adapter created
